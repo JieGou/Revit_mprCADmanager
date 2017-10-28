@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{77AAC6DE-21A4-4700-B976-12E97274B17D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>mprCADmanager</RootNamespace>
+    <AssemblyName>mprCADmanager_2016</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\..\..\..\ModPlus\Functions\Revit\mprCADmanager\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;R2016</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\..\..\..\ModPlus\Functions\Revit\mprCADmanager\</OutputPath>
+    <DefineConstants>TRACE;R2016</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MahApps.Metro">
+      <HintPath>..\..\..\..\..\..\..\ModPlus\Extensions\MahApps.Metro.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ModPlusAPI">
+      <HintPath>..\..\..\..\..\..\..\ModPlus\Extensions\ModPlusAPI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="RevitAPI">
+      <HintPath>..\..\..\..\_Revit dlls\2016\RevitAPI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIUI">
+      <HintPath>..\..\..\..\_Revit dlls\2016\RevitAPIUI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\mprCADmanager_2015\Commands\CADmanagerCommand.cs">
+      <Link>Commands\CADmanagerCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\mprCADmanager_2015\Model\DwgImportsItem.cs">
+      <Link>Model\DwgImportsItem.cs</Link>
+    </Compile>
+    <Compile Include="..\mprCADmanager_2015\Model\RelayCommand.cs">
+      <Link>Model\RelayCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\mprCADmanager_2015\Revit\ChangeViewEvent.cs">
+      <Link>Revit\ChangeViewEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\mprCADmanager_2015\Revit\DeleteElementEvent.cs">
+      <Link>Revit\DeleteElementEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\mprCADmanager_2015\Revit\DeleteManyElementsEvent.cs">
+      <Link>Revit\DeleteManyElementsEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\mprCADmanager_2015\Revit\RemoveEvents.cs">
+      <Link>Revit\RemoveEvents.cs</Link>
+    </Compile>
+    <Compile Include="..\mprCADmanager_2015\ViewModel\DWGImportManagerVM.cs">
+      <Link>ViewModel\DWGImportManagerVM.cs</Link>
+    </Compile>
+    <Compile Include="..\mprCADmanager_2015\ViewModel\ViewModelBase.cs">
+      <Link>ViewModel\ViewModelBase.cs</Link>
+    </Compile>
+    <Compile Include="..\mprCADmanager_2015\View\DWGImportManagerWindow.xaml.cs">
+      <Link>View\DWGImportManagerWindow.xaml.cs</Link>
+      <DependentUpon>DWGImportManagerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\mprCADmanager_2015\Resources\mprCADmanager_16x16.png">
+      <Link>Resources\mprCADmanager_16x16.png</Link>
+    </Resource>
+    <Resource Include="..\mprCADmanager_2015\Resources\mprCADmanager_32x32.png">
+      <Link>Resources\mprCADmanager_32x32.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="..\mprCADmanager_2015\View\DWGImportManagerWindow.xaml">
+      <Link>View\DWGImportManagerWindow.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
