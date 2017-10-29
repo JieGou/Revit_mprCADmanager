@@ -114,7 +114,7 @@ namespace mprCADmanager.Model
                         return "Ошибка при получении имени вида";
                     }
                 }
-                return "Не пренадлежит виду";
+                return "Не принадлежит виду";
             }
         }
 
