@@ -6,12 +6,14 @@ using Autodesk.Revit.UI;
 using mprCADmanager.Commands;
 using mprCADmanager.Revit;
 using mprCADmanager.ViewModel;
+using ModPlusAPI;
 using ModPlusAPI.Windows;
 
 namespace mprCADmanager.Model
 {
     public class DwgImportsItem : ViewModelBase
     {
+        private const string LangItem = "mprCADmanager";
         private readonly UIApplication _uiApplication;
         public DWGImportManagerVM DwgImportManagerVm;
         private readonly DeleteElementEvent _deleteElementEvent;
@@ -74,7 +76,7 @@ namespace mprCADmanager.Model
             {
                 if (Category != null)
                     return Category.Name;
-                return "Неопознанный элемент вставки";
+                return Language.GetItem(LangItem, "msg3");
             }
         }
 
@@ -111,10 +113,10 @@ namespace mprCADmanager.Model
                     }
                     catch (Autodesk.Revit.Exceptions.ArgumentNullException)
                     {
-                        return "Ошибка при получении имени вида";
+                        return Language.GetItem(LangItem, "msg4");
                     }
                 }
-                return "Не принадлежит виду";
+                return Language.GetItem(LangItem, "msg5");
             }
         }
 
@@ -153,14 +155,13 @@ namespace mprCADmanager.Model
             try
             {
                 DWGImportManagerCommand.MainWindow.Topmost = false;
-                var taskDialog = new TaskDialog("CAD менеджер")
+                var taskDialog = new TaskDialog(Language.GetItem(LangItem, "h1"))
                 {
-                    MainContent = "Обозначение импорта " + this.Name + " будет удалено безвозратно!" +
-                                  Environment.NewLine + "Продолжить?",
+                    MainContent = Language.GetItem(LangItem, "msg6") + " \"" + this.Name + "\" " + Language.GetItem(LangItem, "msg7"),
                     CommonButtons = TaskDialogCommonButtons.None
                 };
-                taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink1, "Да");
-                taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink2, "Нет");
+                taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink1, Language.GetItem(LangItem, "yes"));
+                taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink2, Language.GetItem(LangItem, "no"));
                 var result = taskDialog.Show();
                 if (result == TaskDialogResult.CommandLink1)
                 {

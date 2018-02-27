@@ -1,18 +1,19 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using ModPlusAPI;
-using ModPlusAPI.Windows.Helpers;
 
 namespace mprCADmanager.View
 {
     // ReSharper disable once InconsistentNaming
     public partial class DWGImportManagerWindow
     {
+        private const string LangItem = "mprCADmanager";
+
         public DWGImportManagerWindow()
         {
             InitializeComponent();
             AllowsTransparency = true;
-            this.OnWindowStartUp();
+            Title = ModPlusAPI.Language.GetItem(LangItem, "h1");
         }
 
         private void DWGImportManagerWindow_OnLoaded(object sender, RoutedEventArgs e)
@@ -24,11 +25,6 @@ namespace mprCADmanager.View
                     out bool b) && b;
         }
         
-        private void UIElement_OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
-
         private void DWGImportManagerWindow_OnMouseEnter(object sender, MouseEventArgs e)
         {
             Opacity = 1.0;

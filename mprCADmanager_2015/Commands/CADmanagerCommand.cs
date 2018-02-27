@@ -19,6 +19,7 @@ namespace mprCADmanager.Commands
     // ReSharper disable once InconsistentNaming
     public class DWGImportManagerCommand : IExternalCommand
     {
+        private const string LangItem = "mprCADmanager";
         public static DWGImportManagerWindow MainWindow;
         private DeleteElementEvent _deleteElementEvent;
         private RemoveEvents _removeEvents;
@@ -147,7 +148,7 @@ namespace mprCADmanager.Commands
             }
             else
             {
-                MessageBox.Show("В текущем документе не обнаружено обозначений импорта!");
+                MessageBox.Show(Language.GetItem(LangItem, "msg2"));
                 if(MainWindow != null)
                     MainWindow.DataContext = null;
             }

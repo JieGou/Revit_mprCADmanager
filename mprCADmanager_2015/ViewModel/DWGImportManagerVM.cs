@@ -8,6 +8,7 @@ using Autodesk.Revit.UI;
 using mprCADmanager.Commands;
 using mprCADmanager.Model;
 using mprCADmanager.Revit;
+using ModPlusAPI;
 using ModPlusAPI.Windows;
 
 namespace mprCADmanager.ViewModel
@@ -15,6 +16,7 @@ namespace mprCADmanager.ViewModel
     // ReSharper disable once InconsistentNaming
     public class DWGImportManagerVM : ViewModelBase
     {
+        private const string LangItem = "mprCADmanager";
         private readonly DeleteElementEvent _deleteElementEvent;
         private readonly ChangeViewEvent _changeViewEvent;
         private readonly DeleteManyElementsEvent _deleteManyElementsEvent;
@@ -35,7 +37,7 @@ namespace mprCADmanager.ViewModel
             UiApplication = uiApplication;
             FillDwgImportsItems(collector);
             CurrentSortVariant = SortVariants[0];
-            DeleteSelectedCommand = new RelayCommand(DeleteSelectedItems, o=> true);
+            DeleteSelectedCommand = new RelayCommand(DeleteSelectedItems, o => true);
             SelectAllCommand = new RelayCommand(SelectAll, o => true);
         }
         #endregion
@@ -62,7 +64,7 @@ namespace mprCADmanager.ViewModel
         {
             get
             {
-                if (_currentSortVariant.Equals("Неопределенные"))
+                if (_currentSortVariant.Equals(Language.GetItem(LangItem, "sv1")))
                 {
                     if (string.IsNullOrEmpty(SearchText))
                         return new ObservableCollection<DwgImportsItem>(DwgImportsItems.Where(x => x.Category == null));
@@ -71,7 +73,7 @@ namespace mprCADmanager.ViewModel
                         (x.Name.ToLower().Contains(SearchText.ToLower()) ||
                         x.OwnerViewName.ToLower().Contains(SearchText.ToLower()))));
                 }
-                if (_currentSortVariant.Equals("Принадлежащие видам"))
+                if (_currentSortVariant.Equals(Language.GetItem(LangItem, "sv2")))
                 {
                     if (string.IsNullOrEmpty(SearchText))
                         return new ObservableCollection<DwgImportsItem>(DwgImportsItems.Where(x => x.Category != null && x.ViewSpecific));
@@ -80,7 +82,7 @@ namespace mprCADmanager.ViewModel
                         (x.Name.ToLower().Contains(SearchText.ToLower()) ||
                         x.OwnerViewName.ToLower().Contains(SearchText.ToLower()))));
                 }
-                if (_currentSortVariant.Equals("Не принадлежащие видам"))
+                if (_currentSortVariant.Equals(Language.GetItem(LangItem, "sv3")))
                 {
                     if (string.IsNullOrEmpty(SearchText))
                         return new ObservableCollection<DwgImportsItem>(DwgImportsItems.Where(x => x.Category != null && x.ViewSpecific == false));
@@ -103,7 +105,7 @@ namespace mprCADmanager.ViewModel
         {
             get
             {
-                _sortVariants = new List<string> { "Все" };
+                _sortVariants = new List<string> { ModPlusAPI.Language.GetItem(LangItem, "all") };
                 var hasUnidentified = false;
                 var hasViewSpecificImports = false;
                 var hasModelImports = false;
@@ -116,9 +118,9 @@ namespace mprCADmanager.ViewModel
                         else hasModelImports = true;
                     }
                 }
-                if (hasUnidentified) _sortVariants.Add("Неопределенные");
-                if (hasViewSpecificImports) _sortVariants.Add("Принадлежащие видам");
-                if (hasModelImports) _sortVariants.Add("Не принадлежащие видам");
+                if (hasUnidentified) _sortVariants.Add(Language.GetItem(LangItem, "sv1"));
+                if (hasViewSpecificImports) _sortVariants.Add(Language.GetItem(LangItem, "sv2"));
+                if (hasModelImports) _sortVariants.Add(Language.GetItem(LangItem, "sv3"));
                 return _sortVariants;
             }
         }
@@ -164,18 +166,17 @@ namespace mprCADmanager.ViewModel
         {
             try
             {
-                System.Collections.IList items = (System.Collections.IList) o;
+                System.Collections.IList items = (System.Collections.IList)o;
                 if (items != null && items.Count > 0)
                 {
                     DWGImportManagerCommand.MainWindow.Topmost = false;
-                    var taskDialog = new TaskDialog("CAD менеджер")
+                    var taskDialog = new TaskDialog(Language.GetItem(LangItem, "h1"))
                     {
-                        MainContent = "Вбранные обозначения импорта будут удалены безвозратно!" +
-                                      Environment.NewLine + "Продолжить?",
+                        MainContent = Language.GetItem(LangItem, "msg1"),
                         CommonButtons = TaskDialogCommonButtons.None
                     };
-                    taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink1, "Да");
-                    taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink2, "Нет");
+                    taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink1, Language.GetItem(LangItem, "yes"));
+                    taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink2, Language.GetItem(LangItem, "no"));
                     var result = taskDialog.Show();
                     if (result == TaskDialogResult.CommandLink1)
                     {

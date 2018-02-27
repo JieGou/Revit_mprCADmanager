@@ -4,12 +4,14 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using mprCADmanager.Commands;
 using mprCADmanager.Model;
+using ModPlusAPI;
 using ModPlusAPI.Windows;
 
 namespace mprCADmanager.Revit
 {
     public class ChangeViewEvent : IExternalEventHandler
     {
+        private const string LangItem = "mprCADmanager";
         private readonly ExternalEvent _exEvent;
         private DwgImportsItem _dwgImportsItem;
 
@@ -51,16 +53,13 @@ namespace mprCADmanager.Revit
                             // Проверяеям, что импортированные виды на виде включены
                             if (view.AreImportCategoriesHidden)
                             {
-                                var taskDialog = new TaskDialog("CAD менеджер")
+                                var taskDialog = new TaskDialog(Language.GetItem(LangItem, "h1"))
                                 {
-                                    MainContent = "На виде " + view.Name + " скрыты все импортированные категории" +
-                                                  Environment.NewLine + "Выберите дальнейшее действие:",
+                                    MainContent = Language.GetItem(LangItem, "msg8") + " " + view.Name + " " + Language.GetItem(LangItem, "msg9"),
                                     CommonButtons = TaskDialogCommonButtons.None
                                 };
-                                taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink1,
-                                    "Показать все импортированные категории");
-                                taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink2,
-                                    "Включить отображение скрытых элементов");
+                                taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink1, Language.GetItem(LangItem, "msg10"));
+                                taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink2, Language.GetItem(LangItem, "msg11"));
                                 var result = taskDialog.Show();
                                 if (result == TaskDialogResult.CommandLink1)
                                 {
@@ -83,17 +82,15 @@ namespace mprCADmanager.Revit
                             {
                                 if (!_dwgImportsItem.Category.get_Visible(view))
                                 {
-                                    var taskDialog = new TaskDialog("CAD менеджер")
+                                    var taskDialog = new TaskDialog(Language.GetItem(LangItem, "h1"))
                                     {
-                                        MainContent = "Категория " + _dwgImportsItem.Category.Name +
-                                                      " скрыта на виде " + view.Name +
-                                                      Environment.NewLine + "Выберите дальнейшее действие:",
+                                        MainContent = Language.GetItem(LangItem, "msg12") + " " + _dwgImportsItem.Category.Name +
+                                                      " " + Language.GetItem(LangItem, "msg13") + " " + view.Name +
+                                                      Environment.NewLine + Language.GetItem(LangItem, "msg14"),
                                         CommonButtons = TaskDialogCommonButtons.None
                                     };
-                                    taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink1,
-                                        "Сделать категорию видимой на виде");
-                                    taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink2,
-                                        "Включить отображение скрытых элементов");
+                                    taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink1, Language.GetItem(LangItem, "msg15"));
+                                    taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink2, Language.GetItem(LangItem, "msg11"));
                                     var result = taskDialog.Show();
                                     if (result == TaskDialogResult.CommandLink1)
                                     {
@@ -116,17 +113,15 @@ namespace mprCADmanager.Revit
                             {
                                 if (element.IsHidden(view))
                                 {
-                                    var taskDialog = new TaskDialog("CAD менеджер")
+                                    var taskDialog = new TaskDialog(Language.GetItem(LangItem, "h1"))
                                     {
-                                        MainContent = "Обозначение импорта " + _dwgImportsItem.Name +
-                                                      " скрыто на виде " + view.Name +
-                                                      Environment.NewLine + "Выберите дальнейшее действие:",
+                                        MainContent = Language.GetItem(LangItem, "msg6") + " " + _dwgImportsItem.Name +
+                                                      " " + Language.GetItem(LangItem, "msg16") + " " + view.Name +
+                                                      Environment.NewLine + Language.GetItem(LangItem, "msg14"),
                                         CommonButtons = TaskDialogCommonButtons.None
                                     };
-                                    taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink1,
-                                        "Сделать элемент видимым");
-                                    taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink2,
-                                        "Включить отображение скрытых элементов");
+                                    taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink1, Language.GetItem(LangItem, "msg17"));
+                                    taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink2, Language.GetItem(LangItem, "msg11"));
                                     //taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink3, "Ничего не делать");
                                     var result = taskDialog.Show();
                                     if (result == TaskDialogResult.CommandLink1)
@@ -166,7 +161,7 @@ namespace mprCADmanager.Revit
                                 }
                             }
                         }
-                        else MessageBox.Show("Не удалось получить элемент");
+                        else MessageBox.Show(Language.GetItem(LangItem, "msg18"));
                     }
                     else
                     {

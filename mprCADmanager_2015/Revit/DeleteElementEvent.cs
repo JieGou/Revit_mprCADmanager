@@ -1,12 +1,14 @@
 ﻿using System.Linq;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using ModPlusAPI;
 using ModPlusAPI.Windows;
 
 namespace mprCADmanager.Revit
 {
     public class DeleteElementEvent : IExternalEventHandler
     {
+        private const string LangItem = "mprCADmanager";
         private ElementId _elementId;
         private Document _doc;
         private readonly ExternalEvent _exEvent;
@@ -47,7 +49,7 @@ namespace mprCADmanager.Revit
                 //
                 if (_undeleted > 0)
                 {
-                   MessageBox.Show("Невозможно удалить элемент!");
+                   MessageBox.Show(Language.GetItem(LangItem, "msg19"));
                     _undeleted = 0;
                 }
             }

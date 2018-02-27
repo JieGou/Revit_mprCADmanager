@@ -3,6 +3,7 @@ using System.Linq;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using mprCADmanager.View;
+using ModPlusAPI;
 using ModPlusAPI.Windows;
 using Visibility = System.Windows.Visibility;
 
@@ -10,6 +11,7 @@ namespace mprCADmanager.Revit
 {
     public class DeleteManyElementsEvent : IExternalEventHandler
     {
+        private const string LangItem = "mprCADmanager";
         private IList<ElementId> _elementIds;
         private Document _doc;
         private readonly ExternalEvent _exEvent;
@@ -58,7 +60,7 @@ namespace mprCADmanager.Revit
                     MainWindow?.Dispatcher.Invoke(() =>
                     {
                         MainWindow.ProgressBar.Value = progindex;
-                        MainWindow.ProgressText.Text = "Удаление: " + progindex + "/" + _elementIds.Count;
+                        MainWindow.ProgressText.Text = Language.GetItem(LangItem, "msg20") + " " + progindex + "/" + _elementIds.Count;
                     });
                     System.Windows.Forms.Application.DoEvents();
                     using (Transaction t = new Transaction(_doc, _tName))
@@ -75,7 +77,7 @@ namespace mprCADmanager.Revit
                 //
                 if (_undeleted > 0)
                 {
-                    MessageBox.Show("Невозможно удалить элементы: " + _undeleted);
+                    MessageBox.Show(Language.GetItem(LangItem, "msg21") + ": " + _undeleted);
                     _undeleted = 0;
                 }
                 MainWindow?.Dispatcher.Invoke(() =>
