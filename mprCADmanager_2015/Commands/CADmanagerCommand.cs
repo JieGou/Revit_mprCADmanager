@@ -79,7 +79,7 @@ namespace mprCADmanager.Commands
                 {
                     foreach (ElementId elementId in added)
                     {
-                        if (_currentDocument.GetElement(elementId) is ImportInstance)
+                        if (_currentDocument.GetElement(elementId) is CADLinkType)
                         {
                             hasImports = true;
                             break;
@@ -123,7 +123,7 @@ namespace mprCADmanager.Commands
 
         private void SearchImportsAndBind(bool newActiveViewModel)
         {
-            FilteredElementCollector col = new FilteredElementCollector(_currentDocument).OfClass(typeof(ImportInstance));
+            FilteredElementCollector col = new FilteredElementCollector(_currentDocument).OfClass(typeof(CADLinkType));
 
             if (col.Any())
             {
