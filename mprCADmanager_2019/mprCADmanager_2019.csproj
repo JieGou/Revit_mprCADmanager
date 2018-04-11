@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5E4DD8A6-74F6-4F68-B2E4-E116C60AFC98}</ProjectGuid>
+    <ProjectGuid>{801E4A79-6F09-470E-9208-55921053198B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>mprCADmanager</RootNamespace>
-    <AssemblyName>mprCADmanager_2018</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <AssemblyName>mprCADmanager_2019</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -17,7 +17,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\..\..\..\..\ModPlus\Functions\Revit\mprCADmanager\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;R2018</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;R2019</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -25,7 +25,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\..\..\..\..\ModPlus\Functions\Revit\mprCADmanager\</OutputPath>
-    <DefineConstants>TRACE;R2018</DefineConstants>
+    <DefineConstants>TRACE;R2019</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -41,17 +41,32 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="RevitAPI">
-      <HintPath>C:\_Revit dlls\2018\RevitAPI.dll</HintPath>
+      <HintPath>C:\_Revit dlls\2019\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>C:\_Revit dlls\2018\RevitAPIUI.dll</HintPath>
+      <HintPath>C:\_Revit dlls\2019\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
+    <!--
+    
+    <Reference Include="System.Core"/>
+    <Reference Include="System.Xml.Linq"/>
+    <Reference Include="System.Data.DataSetExtensions"/>
+    
+    
+    <Reference Include="Microsoft.CSharp"/>
+    
+    <Reference Include="System.Data"/>
+    
+    <Reference Include="System.Net.Http"/>
+    
+    <Reference Include="System.Xml"/>
+	-->
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\mprCADmanager_2015\Commands\CADmanagerCommand.cs">
