@@ -22,6 +22,7 @@ namespace mprCADmanager.ViewModel
         private readonly DeleteManyElementsEvent _deleteManyElementsEvent;
         public ICommand DeleteSelectedCommand { get; set; }
         public ICommand SelectAllCommand { get; set; }
+
         #region Конструктор
 
         public DWGImportManagerVM(
@@ -43,7 +44,9 @@ namespace mprCADmanager.ViewModel
         #endregion
 
         #region Поля
+
         public UIApplication UiApplication { get; set; }
+        
         public Document Doc => UiApplication.ActiveUIDocument.Document;
 
         private ObservableCollection<DwgImportsItem> _dwgImportsItems = new ObservableCollection<DwgImportsItem>();
@@ -196,7 +199,7 @@ namespace mprCADmanager.ViewModel
             {
                 if (DWGImportManagerCommand.MainWindow != null)
                     DWGImportManagerCommand.MainWindow.Topmost = true;
-                FilteredElementCollector col = new FilteredElementCollector(UiApplication.ActiveUIDocument.Document).OfClass(typeof(ImportInstance));
+                FilteredElementCollector col = new FilteredElementCollector(UiApplication.ActiveUIDocument.Document).OfClass(typeof(CADLinkType));
                 DwgImportsItems.Clear();
                 FillDwgImportsItems(col);
             }

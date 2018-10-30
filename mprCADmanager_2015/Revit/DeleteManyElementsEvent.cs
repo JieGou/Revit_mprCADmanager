@@ -48,7 +48,6 @@ namespace mprCADmanager.Revit
                     MainWindow.CbSortVariants.IsEnabled = false;
                     MainWindow.TbSearch.IsEnabled = false;
                     MainWindow.BtDeleteSelected.IsEnabled = false;
-                    MainWindow.ChkUseWinOpacity.IsEnabled = false;
                     MainWindow.Topmost = false;
                 });
                 System.Windows.Forms.Application.DoEvents();
@@ -88,7 +87,6 @@ namespace mprCADmanager.Revit
                     MainWindow.CbSortVariants.IsEnabled = true;
                     MainWindow.TbSearch.IsEnabled = true;
                     MainWindow.BtDeleteSelected.IsEnabled = true;
-                    MainWindow.ChkUseWinOpacity.IsEnabled = true;
                     MainWindow.Topmost = true;
                 });
                 System.Windows.Forms.Application.DoEvents();
