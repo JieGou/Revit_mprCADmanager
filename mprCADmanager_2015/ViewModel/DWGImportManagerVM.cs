@@ -27,7 +27,7 @@ namespace mprCADmanager.ViewModel
 
         public DWGImportManagerVM(
             UIApplication uiApplication,
-            FilteredElementCollector collector,
+            List<Element> elements,
             DeleteElementEvent deleteElementEvent,
             ChangeViewEvent changeViewEvent,
             DeleteManyElementsEvent deleteManyElementsEvent)
@@ -36,7 +36,7 @@ namespace mprCADmanager.ViewModel
             _changeViewEvent = changeViewEvent;
             _deleteManyElementsEvent = deleteManyElementsEvent;
             UiApplication = uiApplication;
-            FillDwgImportsItems(collector);
+            FillDwgImportsItems(elements);
             CurrentSortVariant = SortVariants[0];
             DeleteSelectedCommand = new RelayCommand(DeleteSelectedItems, o => true);
             SelectAllCommand = new RelayCommand(SelectAll, o => true);
@@ -157,7 +157,7 @@ namespace mprCADmanager.ViewModel
 
         #region Методы
 
-        private void FillDwgImportsItems(FilteredElementCollector collector)
+        private void FillDwgImportsItems(List<Element> collector)
         {
             foreach (Element element in collector)
             {
@@ -199,9 +199,8 @@ namespace mprCADmanager.ViewModel
             {
                 if (DWGImportManagerCommand.MainWindow != null)
                     DWGImportManagerCommand.MainWindow.Topmost = true;
-                FilteredElementCollector col = new FilteredElementCollector(UiApplication.ActiveUIDocument.Document).OfClass(typeof(CADLinkType));
                 DwgImportsItems.Clear();
-                FillDwgImportsItems(col);
+                FillDwgImportsItems(DWGImportManagerCommand.GetElements(UiApplication.ActiveUIDocument.Document));
             }
         }
 

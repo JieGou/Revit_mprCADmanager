@@ -21,7 +21,7 @@ namespace mprCADmanager.Revit
             _exEvent = ExternalEvent.Create(this);
         }
 
-        public void SetAction(ElementId elementId, string tName = "PIK_DeleteElement", Document doc = null)
+        public void SetAction(ElementId elementId, string tName = "DeleteElement", Document doc = null)
         {
             _elementId = elementId;
             _doc = doc;

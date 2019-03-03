@@ -18,6 +18,7 @@ namespace mprCADmanager.Model
         public DWGImportManagerVM DwgImportManagerVm;
         private readonly DeleteElementEvent _deleteElementEvent;
         private readonly ChangeViewEvent _changeViewEvent;
+      
         #region Конструктор
 
         /// <summary>
@@ -130,6 +131,7 @@ namespace mprCADmanager.Model
         public ICommand DeleteItem { get; set; }
 
         #endregion
+        
         #region Методы
 
         private void CopyIdToClipboardAction(object o)

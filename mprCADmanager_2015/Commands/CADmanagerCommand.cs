@@ -14,6 +14,8 @@ using ModPlusAPI.Windows;
 
 namespace mprCADmanager.Commands
 {
+    using System.Collections.Generic;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     // ReSharper disable once InconsistentNaming
@@ -32,7 +34,7 @@ namespace mprCADmanager.Commands
         {
             try
             {
-                Statistic.SendCommandStarting(new Interface());
+                Statistic.SendCommandStarting(new ModPlusConnector());
 
                 _uiApplication = commandData.Application;
                 _currentDocument = _uiApplication.ActiveUIDocument.Document;
@@ -123,7 +125,8 @@ namespace mprCADmanager.Commands
 
         private void SearchImportsAndBind(bool newActiveViewModel)
         {
-            FilteredElementCollector col = new FilteredElementCollector(_currentDocument).OfClass(typeof(CADLinkType));
+            //FilteredElementCollector col = new FilteredElementCollector(_currentDocument).OfClass(typeof(CADLinkType));
+            var col = GetElements(_currentDocument);
 
             if (col.Any())
             {
@@ -152,6 +155,34 @@ namespace mprCADmanager.Commands
                 if(MainWindow != null)
                     MainWindow.DataContext = null;
             }
+        }
+
+        public static List<Element> GetElements(Document document)
+        {
+            List<Element> elements = new List<Element>();
+
+            FilteredElementCollector collector = new FilteredElementCollector(document)
+                .OfClass(typeof(ImportInstance));
+
+            List<int> typesOfImportInstances = new List<int>();
+            foreach (var element in collector)
+            {
+                if (element is ImportInstance importInstance)
+                {
+                    elements.Add(element);
+                    typesOfImportInstances.Add(importInstance.GetTypeId().IntegerValue);
+                }
+            }
+
+            collector = new FilteredElementCollector(document).OfClass(typeof(CADLinkType));
+            foreach (var element in collector)
+            {
+                if (element is CADLinkType cadLinkType &&
+                    !typesOfImportInstances.Contains(cadLinkType.Id.IntegerValue))
+                    elements.Add(element);
+            }
+
+            return elements;
         }
         
         private void MainWindow_Closed(object sender, EventArgs e)
