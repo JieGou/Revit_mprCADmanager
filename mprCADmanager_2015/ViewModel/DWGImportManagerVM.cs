@@ -13,8 +13,10 @@ using ModPlusAPI.Windows;
 
 namespace mprCADmanager.ViewModel
 {
+    using ModPlusAPI.Mvvm;
+
     // ReSharper disable once InconsistentNaming
-    public class DWGImportManagerVM : ViewModelBase
+    public class DWGImportManagerVM : VmBase
     {
         private const string LangItem = "mprCADmanager";
         private readonly DeleteElementEvent _deleteElementEvent;
@@ -50,6 +52,7 @@ namespace mprCADmanager.ViewModel
         public Document Doc => UiApplication.ActiveUIDocument.Document;
 
         private ObservableCollection<DwgImportsItem> _dwgImportsItems = new ObservableCollection<DwgImportsItem>();
+        
         /// <summary>Коллекция обозначений импорта</summary>
         public ObservableCollection<DwgImportsItem> DwgImportsItems
         {
@@ -103,12 +106,13 @@ namespace mprCADmanager.ViewModel
         }
 
         private List<string> _sortVariants;
+       
         /// <summary>Варианты сортировки</summary>
         public List<string> SortVariants
         {
             get
             {
-                _sortVariants = new List<string> { ModPlusAPI.Language.GetItem(LangItem, "all") };
+                _sortVariants = new List<string> { Language.GetItem(LangItem, "all") };
                 var hasUnidentified = false;
                 var hasViewSpecificImports = false;
                 var hasModelImports = false;
@@ -129,6 +133,7 @@ namespace mprCADmanager.ViewModel
         }
 
         private string _currentSortVariant;
+        
         /// <summary>Текущий выбранный вариант сортировки</summary>
         public string CurrentSortVariant
         {

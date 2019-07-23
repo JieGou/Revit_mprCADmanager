@@ -59,14 +59,12 @@
     <Compile Include="Commands\CADmanagerCommand.cs" />
     <Compile Include="ModPlusConnector.cs" />
     <Compile Include="Model\DwgImportsItem.cs" />
-    <Compile Include="Model\RelayCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Revit\ChangeViewEvent.cs" />
     <Compile Include="Revit\DeleteElementEvent.cs" />
     <Compile Include="Revit\DeleteManyElementsEvent.cs" />
     <Compile Include="Revit\RemoveEvents.cs" />
     <Compile Include="ViewModel\DWGImportManagerVM.cs" />
-    <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\DWGImportManagerWindow.xaml.cs">
       <DependentUpon>DWGImportManagerWindow.xaml</DependentUpon>
     </Compile>

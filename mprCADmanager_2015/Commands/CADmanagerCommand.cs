@@ -1,19 +1,18 @@
-﻿using System;
-using System.Linq;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Events;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.UI.Events;
-using mprCADmanager.View;
-using mprCADmanager.Model;
-using mprCADmanager.Revit;
-using mprCADmanager.ViewModel;
-using ModPlusAPI;
-using ModPlusAPI.Windows;
-
-namespace mprCADmanager.Commands
+﻿namespace mprCADmanager.Commands
 {
+    using System;
+    using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Events;
+    using Autodesk.Revit.UI;
+    using Autodesk.Revit.UI.Events;
+    using View;
+    using Model;
+    using Revit;
+    using ViewModel;
+    using ModPlusAPI;
+    using ModPlusAPI.Windows;
     using System.Collections.Generic;
 
     [Transaction(TransactionMode.Manual)]

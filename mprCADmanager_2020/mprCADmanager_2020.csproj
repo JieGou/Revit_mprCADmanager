@@ -71,9 +71,6 @@
     <Compile Include="..\mprcadmanager_2015\model\DwgImportsItem.cs">
       <Link>Model\DwgImportsItem.cs</Link>
     </Compile>
-    <Compile Include="..\mprcadmanager_2015\model\RelayCommand.cs">
-      <Link>Model\RelayCommand.cs</Link>
-    </Compile>
     <Compile Include="..\mprCADmanager_2015\ModPlusConnector.cs">
       <Link>ModPlusConnector.cs</Link>
     </Compile>
@@ -94,9 +91,6 @@
     </Compile>
     <Compile Include="..\mprcadmanager_2015\viewmodel\DWGImportManagerVM.cs">
       <Link>ViewModel\DWGImportManagerVM.cs</Link>
-    </Compile>
-    <Compile Include="..\mprcadmanager_2015\viewmodel\ViewModelBase.cs">
-      <Link>ViewModel\ViewModelBase.cs</Link>
     </Compile>
     <Compile Include="..\mprcadmanager_2015\view\DWGImportManagerWindow.xaml.cs">
       <Link>View\DWGImportManagerWindow.xaml.cs</Link>

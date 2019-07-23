@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using ModPlusAPI;
-using ModPlusAPI.Windows;
-
-namespace mprCADmanager.Revit
+﻿namespace mprCADmanager.Revit
 {
+    using System.Linq;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+    using ModPlusAPI;
+    using ModPlusAPI.Windows;
+
     public class DeleteElementEvent : IExternalEventHandler
     {
         private const string LangItem = "mprCADmanager";
@@ -14,7 +14,7 @@ namespace mprCADmanager.Revit
         private readonly ExternalEvent _exEvent;
         private string _tName;
 
-        private int _undeleted = 0;
+        private int _undeleted;
 
         public DeleteElementEvent()
         {

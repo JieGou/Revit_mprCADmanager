@@ -1,10 +1,10 @@
-﻿using System;
-using Autodesk.Revit.DB.Events;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.UI.Events;
-
-namespace mprCADmanager.Revit
+﻿namespace mprCADmanager.Revit
 {
+    using System;
+    using Autodesk.Revit.DB.Events;
+    using Autodesk.Revit.UI;
+    using Autodesk.Revit.UI.Events;
+
     public class RemoveEvents : IExternalEventHandler
     {
         private readonly ExternalEvent _exEvent;

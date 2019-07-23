@@ -1,17 +1,18 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Input;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using mprCADmanager.Commands;
-using mprCADmanager.Revit;
-using mprCADmanager.ViewModel;
-using ModPlusAPI;
-using ModPlusAPI.Windows;
-
-namespace mprCADmanager.Model
+﻿namespace mprCADmanager.Model
 {
-    public class DwgImportsItem : ViewModelBase
+    using System;
+    using System.Windows;
+    using System.Windows.Input;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+    using Commands;
+    using Revit;
+    using ViewModel;
+    using ModPlusAPI;
+    using ModPlusAPI.Windows;
+    using ModPlusAPI.Mvvm;
+
+    public class DwgImportsItem : VmBase
     {
         private const string LangItem = "mprCADmanager";
         private readonly UIApplication _uiApplication;
@@ -137,13 +138,13 @@ namespace mprCADmanager.Model
         private void CopyIdToClipboardAction(object o)
         {
             Clipboard.SetText(IdToShow);
-            DWGImportManagerCommand.MainWindow.FlyoutCopied.IsOpen = true;
+            DWGImportManagerCommand.MainWindow.PopupCopied.IsOpen = true;
         }
 
         private void CopyOwnerViewIdToClipboardAction(object o)
         {
             Clipboard.SetText(OwnerViewIdToShow);
-            DWGImportManagerCommand.MainWindow.FlyoutCopied.IsOpen = true;
+            DWGImportManagerCommand.MainWindow.PopupCopied.IsOpen = true;
         }
 
         private void ShowItemAction(object o)

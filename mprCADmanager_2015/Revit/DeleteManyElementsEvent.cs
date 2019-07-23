@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using mprCADmanager.View;
-using ModPlusAPI;
-using ModPlusAPI.Windows;
-using Visibility = System.Windows.Visibility;
-
-namespace mprCADmanager.Revit
+﻿namespace mprCADmanager.Revit
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+    using View;
+    using ModPlusAPI;
+    using ModPlusAPI.Windows;
+    using Visibility = System.Windows.Visibility;
+
     public class DeleteManyElementsEvent : IExternalEventHandler
     {
         private const string LangItem = "mprCADmanager";
@@ -16,7 +16,7 @@ namespace mprCADmanager.Revit
         private Document _doc;
         private readonly ExternalEvent _exEvent;
         private string _tName;
-        private int _undeleted = 0;
+        private int _undeleted;
         public DWGImportManagerWindow MainWindow;
         public DeleteManyElementsEvent()
         {

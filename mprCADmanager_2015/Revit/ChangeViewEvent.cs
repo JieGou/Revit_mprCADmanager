@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using mprCADmanager.Commands;
-using mprCADmanager.Model;
-using ModPlusAPI;
-using ModPlusAPI.Windows;
-
-namespace mprCADmanager.Revit
+﻿namespace mprCADmanager.Revit
 {
+    using System;
+    using System.Collections.Generic;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+    using Commands;
+    using Model;
+    using ModPlusAPI;
+    using ModPlusAPI.Windows;
+
     public class ChangeViewEvent : IExternalEventHandler
     {
         private const string LangItem = "mprCADmanager";
@@ -39,9 +39,7 @@ namespace mprCADmanager.Revit
                         // get importsInstance element
                         var element = app.ActiveUIDocument.Document.GetElement(_dwgImportsItem.Id);
                         // get specific view
-                        var view =
-                            app.ActiveUIDocument.Document.GetElement(_dwgImportsItem.OwnerViewId) as
-                                Autodesk.Revit.DB.View;
+                        var view = app.ActiveUIDocument.Document.GetElement(_dwgImportsItem.OwnerViewId) as View;
 
                         // check is hidden
                         if (element != null && view != null)
@@ -50,7 +48,8 @@ namespace mprCADmanager.Revit
                             var enableRevealHiddenMode = false;
                             var areCategoryVisible = false;
                             var areElementVisible = false;
-                            // Проверяеям, что импортированные виды на виде включены
+
+                            // Проверяем, что импортированные виды на виде включены
                             if (view.AreImportCategoriesHidden)
                             {
                                 var taskDialog = new TaskDialog(Language.GetItem(LangItem, "h1"))
