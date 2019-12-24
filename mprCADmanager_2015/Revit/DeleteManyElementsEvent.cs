@@ -4,9 +4,9 @@
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using View;
     using ModPlusAPI;
     using ModPlusAPI.Windows;
+    using View;
     using Visibility = System.Windows.Visibility;
 
     public class DeleteManyElementsEvent : IExternalEventHandler
@@ -18,6 +18,7 @@
         private string _tName;
         private int _undeleted;
         public DWGImportManagerWindow MainWindow;
+
         public DeleteManyElementsEvent()
         {
             _exEvent = ExternalEvent.Create(this);
@@ -35,9 +36,10 @@
         {
             if (_elementIds != null && _elementIds.Any())
             {
-                if (_doc == null) _doc = app.ActiveUIDocument.Document;
+                if (_doc == null)
+                    _doc = app.ActiveUIDocument.Document;
                 app.Application.FailuresProcessing += Application_FailuresProcessing;
-                MainWindow?.Dispatcher.Invoke(() =>
+                MainWindow?.Dispatcher?.Invoke(() =>
                 {
                     MainWindow.ProgressBar.Visibility = Visibility.Visible;
                     MainWindow.ProgressText.Visibility = Visibility.Visible;
@@ -51,20 +53,20 @@
                     MainWindow.Topmost = false;
                 });
                 System.Windows.Forms.Application.DoEvents();
-                var progindex = 0;
+                var progressIndex = 0;
                 for (var i = 0; i < _elementIds.Count; i++)
                 {
-                    ElementId id = _elementIds[i];
-                    progindex = i + 1;
-                    MainWindow?.Dispatcher.Invoke(() =>
+                    var id = _elementIds[i];
+                    progressIndex = i + 1;
+                    MainWindow?.Dispatcher?.Invoke(() =>
                     {
-                        MainWindow.ProgressBar.Value = progindex;
-                        MainWindow.ProgressText.Text = Language.GetItem(LangItem, "msg20") + " " + progindex + "/" + _elementIds.Count;
+                        MainWindow.ProgressBar.Value = progressIndex;
+                        MainWindow.ProgressText.Text = Language.GetItem(LangItem, "msg20") + " " + progressIndex + "/" + _elementIds.Count;
                     });
                     System.Windows.Forms.Application.DoEvents();
-                    using (Transaction t = new Transaction(_doc, _tName))
+                    using (var t = new Transaction(_doc, _tName))
                     {
-                        FailureHandlingOptions failOpts = t.GetFailureHandlingOptions();
+                        var failOpts = t.GetFailureHandlingOptions();
                         failOpts.SetClearAfterRollback(true);
                         t.SetFailureHandlingOptions(failOpts);
                         t.Start();
@@ -72,14 +74,16 @@
                         t.Commit();
                     }
                 }
+
                 app.Application.FailuresProcessing -= Application_FailuresProcessing;
-                //
+
                 if (_undeleted > 0)
                 {
                     MessageBox.Show(Language.GetItem(LangItem, "msg21") + ": " + _undeleted);
                     _undeleted = 0;
                 }
-                MainWindow?.Dispatcher.Invoke(() =>
+
+                MainWindow?.Dispatcher?.Invoke(() =>
                 {
                     MainWindow.ProgressBar.Visibility = Visibility.Collapsed;
                     MainWindow.ProgressText.Visibility = Visibility.Collapsed;
@@ -92,6 +96,7 @@
                 System.Windows.Forms.Application.DoEvents();
             }
         }
+
         private void Application_FailuresProcessing(object sender, Autodesk.Revit.DB.Events.FailuresProcessingEventArgs e)
         {
             // Inside event handler, get all warnings
@@ -99,20 +104,22 @@
             if (failList.Any())
             {
                 _undeleted++;
-                foreach (FailureMessageAccessor failure in failList)
+                foreach (var failure in failList)
                 {
                     // check FailureDefinitionIds against ones that you want to dismiss, 
-                    FailureDefinitionId failId = failure.GetFailureDefinitionId();
+                    var failId = failure.GetFailureDefinitionId();
+
                     // prevent Revit from showing Unenclosed room warnings
                     if (failId == BuiltInFailures.EditingFailures.CannotEditDeletedElements)
                     {
                         e.GetFailuresAccessor().DeleteAllWarnings();
                     }
-
                 }
+
                 e.SetProcessingResult(FailureProcessingResult.ProceedWithRollBack);
             }
         }
+
         public string GetName()
         {
             return "DeleteElement";

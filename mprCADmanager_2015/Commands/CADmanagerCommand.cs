@@ -1,23 +1,23 @@
 ﻿namespace mprCADmanager.Commands
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Events;
     using Autodesk.Revit.UI;
     using Autodesk.Revit.UI.Events;
-    using View;
     using Model;
-    using Revit;
-    using ViewModel;
     using ModPlusAPI;
     using ModPlusAPI.Windows;
-    using System.Collections.Generic;
+    using Revit;
+    using View;
+    using ViewModel;
 
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    // ReSharper disable once InconsistentNaming
+    //// ReSharper disable once InconsistentNaming
     public class DWGImportManagerCommand : IExternalCommand
     {
         private const string LangItem = "mprCADmanager";
@@ -29,6 +29,7 @@
         private Document _currentDocument;
         private UIApplication _uiApplication;
         private DWGImportManagerVM _dwgImportManagerVm;
+
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             try
@@ -41,7 +42,7 @@
                 _uiApplication.ViewActivated += _uiApplication_ViewActivated;
                 _uiApplication.Application.DocumentChanged += Application_DocumentChanged;
                 _uiApplication.Application.DocumentCreated += Application_DocumentCreated;
-                
+
                 _deleteElementEvent = new DeleteElementEvent();
                 _removeEvents = new RemoveEvents();
                 _changeViewEvent = new ChangeViewEvent();
@@ -64,8 +65,8 @@
 
         private void Application_DocumentCreated(object sender, DocumentCreatedEventArgs e)
         {
-                _currentDocument = e.Document;
-                SearchImportsAndBind(true);
+            _currentDocument = e.Document;
+            SearchImportsAndBind(true);
         }
 
         private void Application_DocumentChanged(object sender, DocumentChangedEventArgs e)
@@ -78,7 +79,7 @@
                 var removed = e.GetDeletedElementIds();
                 if (added != null && added.Any())
                 {
-                    foreach (ElementId elementId in added)
+                    foreach (var elementId in added)
                     {
                         if (_currentDocument.GetElement(elementId) is CADLinkType)
                         {
@@ -87,11 +88,12 @@
                         }
                     }
                 }
+
                 if (removed != null && removed.Any() && _dwgImportManagerVm.DwgImportsItems.Any())
                 {
-                    foreach (ElementId elementId in removed)
+                    foreach (var elementId in removed)
                     {
-                        foreach (DwgImportsItem dwgImportsItem in _dwgImportManagerVm.DwgImportsItems)
+                        foreach (var dwgImportsItem in _dwgImportManagerVm.DwgImportsItems)
                         {
                             if (dwgImportsItem.Id.Equals(elementId))
                             {
@@ -101,7 +103,8 @@
                         }
                     }
                 }
-                if(hasImports)
+
+                if (hasImports)
                     SearchImportsAndBind(true);
             }
         }
@@ -117,14 +120,12 @@
 
         private void Application_DocumentClosed(object sender, DocumentClosedEventArgs e)
         {
-            if(_uiApplication.Application.Documents.IsEmpty)
+            if (_uiApplication.Application.Documents.IsEmpty)
                 MainWindow?.Close();
         }
-        
 
         private void SearchImportsAndBind(bool newActiveViewModel)
         {
-            //FilteredElementCollector col = new FilteredElementCollector(_currentDocument).OfClass(typeof(CADLinkType));
             var col = GetElements(_currentDocument);
 
             if (col.Any())
@@ -134,7 +135,7 @@
                     MainWindow = new DWGImportManagerWindow();
                     _deleteManyElementsEvent.MainWindow = MainWindow;
                     MainWindow.Closed += MainWindow_Closed;
-                    _dwgImportManagerVm = new DWGImportManagerVM(_uiApplication, col, _deleteElementEvent,_changeViewEvent, _deleteManyElementsEvent);
+                    _dwgImportManagerVm = new DWGImportManagerVM(_uiApplication, col, _deleteElementEvent, _changeViewEvent, _deleteManyElementsEvent);
                     MainWindow.DataContext = _dwgImportManagerVm;
                     MainWindow.Show();
                 }
@@ -151,19 +152,19 @@
             else
             {
                 MessageBox.Show(Language.GetItem(LangItem, "msg2"));
-                if(MainWindow != null)
+                if (MainWindow != null)
                     MainWindow.DataContext = null;
             }
         }
 
         public static List<Element> GetElements(Document document)
         {
-            List<Element> elements = new List<Element>();
+            var elements = new List<Element>();
 
-            FilteredElementCollector collector = new FilteredElementCollector(document)
+            var collector = new FilteredElementCollector(document)
                 .OfClass(typeof(ImportInstance));
 
-            List<int> typesOfImportInstances = new List<int>();
+            var typesOfImportInstances = new List<int>();
             foreach (var element in collector)
             {
                 if (element is ImportInstance importInstance)
@@ -183,7 +184,7 @@
 
             return elements;
         }
-        
+
         private void MainWindow_Closed(object sender, EventArgs e)
         {
             try

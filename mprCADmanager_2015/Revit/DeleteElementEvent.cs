@@ -33,23 +33,25 @@
         {
             if (_elementId != null)
             {
-                if (_doc == null) _doc = app.ActiveUIDocument.Document;
+                if (_doc == null)
+                    _doc = app.ActiveUIDocument.Document;
                 app.Application.FailuresProcessing += Application_FailuresProcessing;
-                using (Transaction t = new Transaction(_doc, _tName))
+                using (var t = new Transaction(_doc, _tName))
                 {
-                    FailureHandlingOptions failOpts = t.GetFailureHandlingOptions();
+                    var failOpts = t.GetFailureHandlingOptions();
                     failOpts.SetClearAfterRollback(true);
                     t.SetFailureHandlingOptions(failOpts);
                     t.Start();
-                    //
+
                     _doc.Delete(_elementId);
                     t.Commit();
                 }
+
                 app.Application.FailuresProcessing -= Application_FailuresProcessing;
-                //
+
                 if (_undeleted > 0)
                 {
-                   MessageBox.Show(Language.GetItem(LangItem, "msg19"));
+                    MessageBox.Show(Language.GetItem(LangItem, "msg19"));
                     _undeleted = 0;
                 }
             }
@@ -62,17 +64,18 @@
             if (failList.Any())
             {
                 _undeleted++;
-                foreach (FailureMessageAccessor failure in failList)
+                foreach (var failure in failList)
                 {
                     // check FailureDefinitionIds against ones that you want to dismiss, 
-                    FailureDefinitionId failId = failure.GetFailureDefinitionId();
+                    var failId = failure.GetFailureDefinitionId();
+
                     // prevent Revit from showing Unenclosed room warnings
                     if (failId == BuiltInFailures.EditingFailures.CannotEditDeletedElements)
                     {
                         e.GetFailuresAccessor().DeleteAllWarnings();
                     }
-
                 }
+
                 e.SetProcessingResult(FailureProcessingResult.ProceedWithRollBack);
             }
         }

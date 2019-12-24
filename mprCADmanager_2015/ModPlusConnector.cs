@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using ModPlusAPI.Interfaces;
-
+﻿#pragma warning disable SA1600 // Elements should be documented
 namespace mprCADmanager
 {
+    using System;
+    using System.Collections.Generic;
+    using ModPlusAPI.Interfaces;
+
     public class ModPlusConnector : IModPlusFunctionInterface
     {
         public SupportedProduct SupportedProduct => SupportedProduct.Revit;
@@ -40,7 +41,7 @@ namespace mprCADmanager
 
         public bool CanAddToRibbon => true;
 
-        public string FullDescription => "Функция отображает все виды вставленных dwg-файлов – как принадлежащие видам, так и не принадлежащие видам. Имеется возможность поиска в списке, копирования идентификатора dwg-вставки или вида, открытия вида, содержащего dwg-вставку, а также удаление dwg-вставки";
+        public string FullDescription => "Плагин отображает все виды вставленных dwg-файлов – как принадлежащие видам, так и не принадлежащие видам. Имеется возможность поиска в списке, копирования идентификатора dwg-вставки или вида, открытия вида, содержащего dwg-вставку, а также удаление dwg-вставки";
 
         public string ToolTipHelpImage => string.Empty;
 
@@ -57,3 +58,4 @@ namespace mprCADmanager
         public List<string> SubClassNames => new List<string>();
     }
 }
+#pragma warning restore SA1600 // Elements should be documented

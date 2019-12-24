@@ -38,6 +38,7 @@
                     {
                         // get importsInstance element
                         var element = app.ActiveUIDocument.Document.GetElement(_dwgImportsItem.Id);
+
                         // get specific view
                         var view = app.ActiveUIDocument.Document.GetElement(_dwgImportsItem.OwnerViewId) as View;
 
@@ -62,12 +63,13 @@
                                 var result = taskDialog.Show();
                                 if (result == TaskDialogResult.CommandLink1)
                                 {
-                                    using (Transaction t = new Transaction(doc, "PIK_ChangeView"))
+                                    using (var t = new Transaction(doc, "ChangeView"))
                                     {
                                         t.Start();
                                         view.AreImportCategoriesHidden = false;
                                         t.Commit();
                                     }
+
                                     areImportCategoriesVisible = true;
                                 }
                                 else if (result == TaskDialogResult.CommandLink2)
@@ -75,7 +77,11 @@
                                     enableRevealHiddenMode = true;
                                 }
                             }
-                            else areImportCategoriesVisible = true;
+                            else
+                            {
+                                areImportCategoriesVisible = true;
+                            }
+
                             // Если включили отображение импортированных категорий, тогда проверяем уже категорию
                             if (areImportCategoriesVisible)
                             {
@@ -93,12 +99,13 @@
                                     var result = taskDialog.Show();
                                     if (result == TaskDialogResult.CommandLink1)
                                     {
-                                        using (Transaction t = new Transaction(doc, "PIK_ChangeView"))
+                                        using (var t = new Transaction(doc, "ChangeView"))
                                         {
                                             t.Start();
                                             _dwgImportsItem.Category.set_Visible(view, true);
                                             t.Commit();
                                         }
+
                                         areCategoryVisible = true;
                                     }
                                     else if (result == TaskDialogResult.CommandLink2)
@@ -106,8 +113,12 @@
                                         enableRevealHiddenMode = true;
                                     }
                                 }
-                                else areCategoryVisible = true;
+                                else
+                                {
+                                    areCategoryVisible = true;
+                                }
                             }
+
                             if (areImportCategoriesVisible && areCategoryVisible)
                             {
                                 if (element.IsHidden(view))
@@ -121,11 +132,11 @@
                                     };
                                     taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink1, Language.GetItem(LangItem, "msg17"));
                                     taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink2, Language.GetItem(LangItem, "msg11"));
-                                    //taskDialog.AddCommandLink(TaskDialogCommandLinkId.CommandLink3, "Ничего не делать");
+
                                     var result = taskDialog.Show();
                                     if (result == TaskDialogResult.CommandLink1)
                                     {
-                                        var lstToShow = new List<ElementId> {_dwgImportsItem.Id};
+                                        var lstToShow = new List<ElementId> { _dwgImportsItem.Id };
                                         view.UnhideElements(lstToShow);
                                         areElementVisible = true;
                                     }
@@ -134,7 +145,10 @@
                                         enableRevealHiddenMode = true;
                                     }
                                 }
-                                else areElementVisible = true;
+                                else
+                                {
+                                    areElementVisible = true;
+                                }
                             }
 
                             if (areImportCategoriesVisible && areCategoryVisible && areElementVisible)
@@ -142,17 +156,18 @@
                                 app.ActiveUIDocument.ActiveView = view;
 
                                 view.DisableTemporaryViewMode(TemporaryViewMode.RevealHiddenElements);
-                                var lstToShow = new List<ElementId> {_dwgImportsItem.Id};
+                                var lstToShow = new List<ElementId> { _dwgImportsItem.Id };
                                 app.ActiveUIDocument.Selection.SetElementIds(lstToShow);
 
                                 var bb = element.get_BoundingBox(view);
                                 app.ActiveUIDocument.GetOpenUIViews()[0].ZoomAndCenterRectangle(bb.Min, bb.Max);
                             }
+
                             if (enableRevealHiddenMode)
                             {
                                 // set view active
                                 app.ActiveUIDocument.ActiveView = view;
-                                using (Transaction t = new Transaction(doc, "PIK_ChangeView"))
+                                using (var t = new Transaction(doc, "ChangeView"))
                                 {
                                     t.Start();
                                     view.EnableRevealHiddenMode();
@@ -160,11 +175,14 @@
                                 }
                             }
                         }
-                        else MessageBox.Show(Language.GetItem(LangItem, "msg18"));
+                        else
+                        {
+                            MessageBox.Show(Language.GetItem(LangItem, "msg18"));
+                        }
                     }
                     else
                     {
-                        var lstToShow = new List<ElementId> {_dwgImportsItem.Id};
+                        var lstToShow = new List<ElementId> { _dwgImportsItem.Id };
                         app.ActiveUIDocument.Selection.SetElementIds(lstToShow);
                         app.ActiveUIDocument.ShowElements(lstToShow);
                     }
@@ -176,10 +194,11 @@
             }
             finally
             {
-                if(DWGImportManagerCommand.MainWindow != null)
+                if (DWGImportManagerCommand.MainWindow != null)
                     DWGImportManagerCommand.MainWindow.Topmost = true;
             }
         }
+
         public string GetName()
         {
             return "ChangeView";
