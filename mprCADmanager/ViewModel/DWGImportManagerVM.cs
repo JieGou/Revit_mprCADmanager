@@ -25,9 +25,7 @@
         public ICommand DeleteSelectedCommand { get; set; }
 
         public ICommand SelectAllCommand { get; set; }
-
-        #region Конструктор
-
+        
         public DWGImportManagerVM(
             UIApplication uiApplication,
             List<Element> elements,
@@ -44,10 +42,7 @@
             DeleteSelectedCommand = new RelayCommand<System.Collections.IList>(DeleteSelectedItems);
             SelectAllCommand = new RelayCommandWithoutParameter(SelectAll);
         }
-        #endregion
-
-        #region Поля
-
+        
         public UIApplication UiApplication { get; set; }
 
         public Document Doc => UiApplication.ActiveUIDocument.Document;
@@ -171,10 +166,7 @@
                 OnPropertyChanged(nameof(DwgImportsItemsToShow));
             }
         }
-        #endregion
-
-        #region Методы
-
+        
         private void FillDwgImportsItems(List<Element> collector)
         {
             foreach (var element in collector)
@@ -233,6 +225,5 @@
                 ExceptionBox.Show(exception);
             }
         }
-        #endregion
     }
 }

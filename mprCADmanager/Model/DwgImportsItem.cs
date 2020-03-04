@@ -16,22 +16,23 @@
     {
         private const string LangItem = "mprCADmanager";
         private readonly UIApplication _uiApplication;
-        public DWGImportManagerVM DwgImportManagerVm;
         private readonly DeleteElementEvent _deleteElementEvent;
         private readonly ChangeViewEvent _changeViewEvent;
-
-        #region Конструктор
+        private bool _viewSpecific;
+        private ElementId _id;
+        private Category _category;
+        private ElementId _ownerViewId;
 
         /// <summary>
         /// Конструктор
         /// </summary>
-        /// <param name="importInstance">ImportInstance</param>
+        /// <param name="element"><see cref="CADLinkType"/> or <see cref="ImportInstance"/></param>
         /// <param name="uiApplication">Revit uiApp</param>
         /// <param name="dwgImportManagerVm">Link to main view model</param>
         /// <param name="deleteElementEvent"></param>
         /// <param name="changeViewEvent"></param>
         public DwgImportsItem(
-            Element importInstance,
+            Element element,
             UIApplication uiApplication,
             DWGImportManagerVM dwgImportManagerVm,
             DeleteElementEvent deleteElementEvent,
@@ -41,10 +42,12 @@
             _changeViewEvent = changeViewEvent;
             _uiApplication = uiApplication;
             DwgImportManagerVm = dwgImportManagerVm;
-            ViewSpecific = importInstance.ViewSpecific;
-            OwnerViewId = importInstance.OwnerViewId;
-            Category = importInstance.Category;
-            Id = importInstance.Id;
+            ViewSpecific = element.ViewSpecific;
+            OwnerViewId = element.OwnerViewId;
+            Category = element.Category;
+            Id = element.Id;
+
+            Name = GetName(element);
 
             // commands
             CopyIdToClipboard = new RelayCommandWithoutParameter(CopyIdToClipboardAction);
@@ -52,11 +55,8 @@
             ShowItem = new RelayCommandWithoutParameter(ShowItemAction);
             DeleteItem = new RelayCommandWithoutParameter(DeleteItemAction);
         }
-        #endregion
-
-        #region Поля
-
-        private bool _viewSpecific;
+        
+        public DWGImportManagerVM DwgImportManagerVm { get; }
 
         /// <summary>Принадлежит ли элемент вид</summary>
         public bool ViewSpecific
@@ -68,8 +68,6 @@
                 OnPropertyChanged(nameof(ViewSpecific));
             }
         }
-
-        private Category _category;
 
         /// <summary>Категория элемента</summary>
         /// <remarks>Может быть Null</remarks>
@@ -84,17 +82,7 @@
         }
 
         /// <summary>Имя элемента</summary>
-        public string Name
-        {
-            get
-            {
-                if (Category != null)
-                    return Category.Name;
-                return Language.GetItem(LangItem, "msg3");
-            }
-        }
-
-        private ElementId _id;
+        public string Name { get; }
 
         /// <summary>ElementId элемента вставки</summary>
         public ElementId Id
@@ -108,8 +96,6 @@
         }
 
         public string IdToShow => Id.ToString();
-
-        private ElementId _ownerViewId;
 
         /// <summary>ElementId вида, которому принадлежит элемент вставки</summary>
         public ElementId OwnerViewId
@@ -145,11 +131,7 @@
                 return Language.GetItem(LangItem, "msg5");
             }
         }
-
-        #endregion
-
-        #region Commands
-
+        
         public ICommand CopyIdToClipboard { get; set; }
 
         public ICommand CopyOwnerViewIdToClipboard { get; set; }
@@ -157,10 +139,6 @@
         public ICommand ShowItem { get; set; }
 
         public ICommand DeleteItem { get; set; }
-
-        #endregion
-
-        #region Методы
 
         private void CopyIdToClipboardAction()
         {
@@ -209,6 +187,24 @@
             }
         }
 
-        #endregion
+        private string GetName(Element element)
+        {
+            if (element is CADLinkType)
+                return element.Name;
+
+            if (element is ImportInstance importInstance)
+            {
+                try
+                {
+                    return _uiApplication.ActiveUIDocument.Document.GetElement(importInstance.GetTypeId()).Name;
+                }
+                catch
+                {
+                    return Language.GetItem(LangItem, "msg3");
+                }
+            }
+
+            return Language.GetItem(LangItem, "msg3");
+        }
     }
 }

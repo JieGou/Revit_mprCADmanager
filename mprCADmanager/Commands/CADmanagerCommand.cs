@@ -39,7 +39,7 @@
                 _uiApplication = commandData.Application;
                 _currentDocument = _uiApplication.ActiveUIDocument.Document;
                 _uiApplication.Application.DocumentClosed += Application_DocumentClosed;
-                _uiApplication.ViewActivated += _uiApplication_ViewActivated;
+                _uiApplication.ViewActivated += UiApplication_ViewActivated;
                 _uiApplication.Application.DocumentChanged += Application_DocumentChanged;
                 _uiApplication.Application.DocumentCreated += Application_DocumentCreated;
 
@@ -109,7 +109,7 @@
             }
         }
 
-        private void _uiApplication_ViewActivated(object sender, ViewActivatedEventArgs e)
+        private void UiApplication_ViewActivated(object sender, ViewActivatedEventArgs e)
         {
             if (!Equals(e.Document, _currentDocument) && MainWindow != null)
             {
@@ -190,7 +190,7 @@
             try
             {
                 MainWindow = null;
-                _removeEvents.SetAction(Application_DocumentClosed, _uiApplication_ViewActivated, Application_DocumentChanged, Application_DocumentCreated);
+                _removeEvents.SetAction(Application_DocumentClosed, UiApplication_ViewActivated, Application_DocumentChanged, Application_DocumentCreated);
             }
             catch (Exception exception)
             {
